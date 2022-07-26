@@ -5,6 +5,7 @@ import 'package:netflix/application/downloads/downloads_bloc.dart';
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/constants.dart';
 import 'package:netflix/core/strings.dart';
+import 'package:netflix/domain/downloads/models/downloads.dart';
 import 'package:netflix/presentation/widget/app_bar_widget.dart';
 
 class ScreenDownloads extends StatelessWidget {

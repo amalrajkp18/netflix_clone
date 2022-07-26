@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:netflix/application/search/search_bloc.dart';
 import 'package:netflix/core/constants.dart';
 import 'package:netflix/presentation/search/widget/screen_idle.dart';
+import 'package:netflix/presentation/search/widget/screen_result.dart';
 
 class ScreenSearch extends StatelessWidget {
   const ScreenSearch({Key? key}) : super(key: key);
@@ -31,11 +32,23 @@ class ScreenSearch extends StatelessWidget {
                   CupertinoIcons.xmark_circle_fill,
                   color: Colors.grey,
                 ),
+                onChanged: (value) {
+                  BlocProvider.of<SearchBloc>(context).add(
+                    SearchMovie(movieQuery: value),
+                  );
+                },
               ),
               kHeight,
-              const Expanded(
-                child: ScreenIdleWidget(),
-                // child: SearchResultWidget(),
+              Expanded(
+                child: BlocBuilder<SearchBloc, SearchState>(
+                  builder: (context, state) {
+                    if (state.searchResultList.isEmpty) {
+                      return const ScreenIdleWidget();
+                    } else {
+                      return const SearchResultWidget();
+                    }
+                  },
+                ),
               ),
             ],
           ),
