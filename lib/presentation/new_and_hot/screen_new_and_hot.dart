@@ -28,9 +28,14 @@ class ScreenNewAndHot extends StatelessWidget {
                 kWidth,
                 Align(
                   child: Container(
-                    color: Colors.blue,
                     width: 25,
                     height: 25,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      image: const DecorationImage(
+                          image: AssetImage('assets/images/ntAvatar.png'),
+                          fit: BoxFit.cover),
+                    ),
                   ),
                 ),
                 kWidth,

@@ -1,20 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'search_response.dart';
+part of 'search_resp.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) =>
-    SearchResponse(
+SearchResp _$SearchRespFromJson(Map<String, dynamic> json) => SearchResp(
       results: (json['results'] as List<dynamic>?)
               ?.map((e) => SearchResultData.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
 
-Map<String, dynamic> _$SearchResponseToJson(SearchResponse instance) =>
+Map<String, dynamic> _$SearchRespToJson(SearchResp instance) =>
     <String, dynamic>{
       'results': instance.results,
     };
@@ -22,13 +21,17 @@ Map<String, dynamic> _$SearchResponseToJson(SearchResponse instance) =>
 SearchResultData _$SearchResultDataFromJson(Map<String, dynamic> json) =>
     SearchResultData(
       id: json['id'] as int?,
-      originalTitle: json['original_title'] as String?,
+      title: json['title'] as String?,
       posterPath: json['poster_path'] as String?,
+      backdropPath: json['backdrop_path'] as String?,
+      overview: json['overview'] as String?,
     );
 
 Map<String, dynamic> _$SearchResultDataToJson(SearchResultData instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'original_title': instance.originalTitle,
+      'title': instance.title,
       'poster_path': instance.posterPath,
+      'backdrop_path': instance.backdropPath,
+      'overview': instance.overview,
     };

@@ -1,39 +1,45 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:netflix/core/strings.dart';
-
-part 'search_response.g.dart';
+part 'search_resp.g.dart';
 
 @JsonSerializable()
-class SearchResponse {
+class SearchResp {
   @JsonKey(name: 'results')
   List<SearchResultData> results;
 
-  SearchResponse({
-    this.results = const [],
-  });
+  SearchResp({this.results = const []});
 
-  factory SearchResponse.fromJson(Map<String, dynamic> json) {
-    return _$SearchResponseFromJson(json);
+  factory SearchResp.fromJson(Map<String, dynamic> json) {
+    return _$SearchRespFromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$SearchResponseToJson(this);
+  Map<String, dynamic> toJson() => _$SearchRespToJson(this);
 }
 
 @JsonSerializable()
 class SearchResultData {
   @JsonKey(name: 'id')
   int? id;
-  @JsonKey(name: 'original_title')
-  String? originalTitle;
+
+  @JsonKey(name: 'title')
+  String? title;
+
   @JsonKey(name: 'poster_path')
   String? posterPath;
-  String get posterImageUrl => '$imageAppendUrl$posterPath';
+
+  @JsonKey(name: 'backdrop_path')
+  String? backdropPath;
+
+  @JsonKey(name: 'overview')
+  String? overview;
 
   SearchResultData({
     this.id,
-    this.originalTitle,
+    this.title,
     this.posterPath,
+    this.backdropPath,
+    this.overview,
   });
+
   factory SearchResultData.fromJson(Map<String, dynamic> json) {
     return _$SearchResultDataFromJson(json);
   }

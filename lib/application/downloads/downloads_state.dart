@@ -5,14 +5,13 @@ class DownloadState with _$DownloadState {
   const factory DownloadState({
     required bool isLoading,
     required List<Downloads> downloads,
-    required Option<Either<MainFailure, List<Downloads>>>
-        downloadsFailureOrSuccessOption,
+    required Option<Either<MainFailure, List<Downloads>>> downloadOrFailure,
   }) = _DownloadState;
 
-  factory DownloadState.inital() {
+  factory DownloadState.initial() {
     return const DownloadState(
       isLoading: false,
-      downloadsFailureOrSuccessOption: None(),
+      downloadOrFailure: None(),
       downloads: [],
     );
   }

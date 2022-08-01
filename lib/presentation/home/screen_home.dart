@@ -63,10 +63,10 @@ class ScreenHome extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Image.network(
-                                    kLogo,
-                                    width: 60,
-                                    height: 60,
+                                  Image.asset(
+                                    'assets/images/logo.png',
+                                    width: 50,
+                                    height: 50,
                                   ),
                                   const Spacer(),
                                   const Icon(
@@ -76,9 +76,15 @@ class ScreenHome extends StatelessWidget {
                                   ),
                                   kWidth,
                                   Container(
-                                    color: Colors.blue,
                                     width: 25,
                                     height: 25,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      image: const DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/ntAvatar.png'),
+                                          fit: BoxFit.cover),
+                                    ),
                                   ),
                                   kWidth,
                                 ],
