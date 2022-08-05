@@ -7,10 +7,13 @@ class MainTitleCard extends StatelessWidget {
   const MainTitleCard({
     Key? key,
     required this.title,
+    required this.postersList,
   }) : super(key: key);
   final String title;
+  final List<String> postersList;
   @override
   Widget build(BuildContext context) {
+    postersList.shuffle();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -20,7 +23,12 @@ class MainTitleCard extends StatelessWidget {
           maxHeight: 200,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: List.generate(10, (index) => const MainCard()),
+            children: List.generate(
+              10,
+              (index) => MainCard(
+                imageUrl: postersList[index],
+              ),
+            ),
           ),
         )
       ],

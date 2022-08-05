@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:netflix/application/search/search_bloc.dart';
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/constants.dart';
 import 'package:netflix/core/strings.dart';
 import 'package:netflix/domain/search/models/search_resp.dart';
+import 'package:netflix/presentation/home/widget/custom_buttom_widget.dart';
 
 class MovieInfo extends StatelessWidget {
   const MovieInfo({
@@ -12,15 +11,9 @@ class MovieInfo extends StatelessWidget {
     required this.movieList,
   }) : super(key: key);
   final SearchResultData movieList;
+
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        BlocProvider.of<SearchBloc>(context).add(
-          const Initialize(),
-        );
-      },
-    );
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -78,15 +71,19 @@ class MovieInfo extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Positioned(
-                  bottom: 35,
+                Positioned(
+                  bottom: 10,
                   right: 20,
-                  child: Icon(
-                    Icons.play_circle_rounded,
-                    color: kRedcolor,
-                    size: 65,
+                  child: Row(
+                    children: const [
+                      CustomButton(icon: Icons.add, title: 'My List'),
+                      kWidth30,
+                      CustomButton(icon: Icons.thumb_up_sharp, title: 'Rate'),
+                      kWidth30,
+                      CustomButton(icon: Icons.share, title: 'Share'),
+                    ],
                   ),
-                ),
+                )
               ],
             ),
             kHeight,
@@ -103,16 +100,7 @@ class MovieInfo extends StatelessWidget {
                       color: kWhitecolor,
                     ),
                   ),
-                  kHeight,
-                  Text(
-                    'Overview',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: kWhitecolor.withOpacity(0.8),
-                    ),
-                  ),
-                  kHeight,
+                  kHeight20,
                   Text(
                     '${movieList.overview}',
                     style: const TextStyle(
@@ -121,12 +109,49 @@ class MovieInfo extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   kHeight20,
-                  const Text(
-                    'More Like This',
-                    style: TextStyle(color: kWhitecolor, fontSize: 18),
+                  Center(
+                    child: SizedBox(
+                      width: 360,
+                      height: 40,
+                      child: ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.play_arrow,
+                          color: kBlackcolor,
+                          size: 30,
+                        ),
+                        label: const Text(
+                          'Play',
+                          style: TextStyle(color: kBlackcolor, fontSize: 20),
+                        ),
+                        style: TextButton.styleFrom(
+                          backgroundColor: kWhitecolor,
+                        ),
+                      ),
+                    ),
                   ),
                   kHeight,
-                  const SuuggestionList(),
+                  Center(
+                    child: SizedBox(
+                      width: 360,
+                      height: 40,
+                      child: ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.download,
+                          color: kWhitecolor,
+                          size: 25,
+                        ),
+                        label: const Text(
+                          'Download',
+                          style: TextStyle(color: kWhitecolor, fontSize: 20),
+                        ),
+                        style: TextButton.styleFrom(
+                          backgroundColor: kGreycolor.withOpacity(0.3),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -134,58 +159,5 @@ class MovieInfo extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class SuuggestionList extends StatelessWidget {
-  const SuuggestionList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SearchBloc, SearchState>(
-      builder: (context, state) {
-        return LimitedBox(
-            maxHeight: 190,
-            child: ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: List.generate(
-                state.idleList.length,
-                (index) {
-                  final movie = state.idleList[index];
-                  return SuggestionCard(image: '${movie.posterPath}');
-                },
-              ),
-            ));
-      },
-    );
-  }
-}
-
-class SuggestionCard extends StatelessWidget {
-  const SuggestionCard({Key? key, required this.image}) : super(key: key);
-  final String image;
-
-  @override
-  Widget build(BuildContext context) {
-    return image.endsWith('.jpg')
-        ? Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            width: 130,
-            height: 250,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage('$imageAppendUrl$image'),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: kBorderRadius5,
-            ),
-          )
-        : const Center(
-            child: Text(
-              'Image \nnot found',
-              textAlign: TextAlign.center,
-            ),
-          );
   }
 }

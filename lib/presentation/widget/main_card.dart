@@ -4,7 +4,9 @@ import 'package:netflix/core/constants.dart';
 class MainCard extends StatelessWidget {
   const MainCard({
     Key? key,
+    required this.imageUrl,
   }) : super(key: key);
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +15,8 @@ class MainCard extends StatelessWidget {
       width: 130,
       height: 250,
       decoration: BoxDecoration(
-        image: const DecorationImage(
-            image: NetworkImage(
-                'https://www.themoviedb.org/t/p/w220_and_h330_face/zPIug5giU8oug6Xes5K1sTfQJxY.jpg'),
-            fit: BoxFit.cover),
+        image:
+            DecorationImage(image: NetworkImage(imageUrl), fit: BoxFit.cover),
         borderRadius: kBorderRadius5,
       ),
     );

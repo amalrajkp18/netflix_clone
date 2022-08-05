@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:netflix/application/downloads/downloads_bloc.dart';
-import 'package:netflix/core/themes/theme.dart';
-import 'package:netflix/domain/core/di/injectable.dart';
-import 'package:netflix/presentation/main_page/screen_main_page.dart';
 
+import 'application/downloads/downloads_bloc.dart';
+import 'application/fast_laugh/fast_laugh_bloc.dart';
+import 'application/home/home_bloc.dart';
+import 'application/hot_and_new/hot_and_new_bloc.dart';
 import 'application/search/search_bloc.dart';
+import 'core/themes/theme.dart';
+import 'domain/core/di/injectable.dart';
+import 'presentation/main_page/screen_main_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +26,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (ctx) => getIt<DownloadsBloc>()),
         BlocProvider(create: (ctx) => getIt<SearchBloc>()),
+        BlocProvider(create: (ctx) => getIt<FastLaughBloc>()),
+        BlocProvider(create: (ctx) => getIt<HotAndNewBloc>()),
+        BlocProvider(create: (ctx) => getIt<HomeBloc>()),
       ],
       child: MaterialApp(
         title: 'Netflix',

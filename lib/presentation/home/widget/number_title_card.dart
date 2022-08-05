@@ -6,7 +6,9 @@ import 'package:netflix/presentation/widget/main_title.dart';
 class NumberTitleCard extends StatelessWidget {
   const NumberTitleCard({
     Key? key,
+    required this.postersList,
   }) : super(key: key);
+  final List<String> postersList;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class NumberTitleCard extends StatelessWidget {
                 10,
                 (index) => NumberCard(
                       index: index,
+                      imageUrl: postersList[index],
                     )),
           ),
         )

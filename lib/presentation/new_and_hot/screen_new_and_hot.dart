@@ -12,72 +12,64 @@ class ScreenNewAndHot extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(90),
-            child: AppBar(
-              title: const Text(
-                'New & Hot',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(90),
+          child: AppBar(
+            title: const Text(
+              'New & Hot',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            actions: [
+              const Icon(
+                Icons.cast,
+                color: Colors.white,
+                size: 28,
               ),
-              actions: [
-                const Icon(
-                  Icons.cast,
-                  color: Colors.white,
-                  size: 28,
-                ),
-                kWidth,
-                Align(
-                  child: Container(
-                    width: 25,
-                    height: 25,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      image: const DecorationImage(
-                          image: AssetImage('assets/images/ntAvatar.png'),
-                          fit: BoxFit.cover),
-                    ),
+              kWidth,
+              Align(
+                child: Container(
+                  width: 25,
+                  height: 25,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    image: const DecorationImage(
+                        image: AssetImage('assets/images/ntAvatar.png'),
+                        fit: BoxFit.cover),
                   ),
                 ),
-                kWidth,
+              ),
+              kWidth,
+            ],
+            bottom: TabBar(
+              isScrollable: true,
+              labelColor: kBlackcolor,
+              unselectedLabelColor: kWhitecolor,
+              labelStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              indicator: BoxDecoration(
+                  color: kWhitecolor, borderRadius: kBorderRadius30),
+              tabs: const [
+                Tab(
+                  text: '🍿 Coming Soon',
+                ),
+                Tab(text: "👀 Everyone's Watching"),
               ],
-              bottom: TabBar(
-                isScrollable: true,
-                labelColor: kBlackcolor,
-                unselectedLabelColor: kWhitecolor,
-                labelStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                indicator: BoxDecoration(
-                    color: kWhitecolor, borderRadius: kBorderRadius30),
-                tabs: const [
-                  Tab(
-                    text: '🍿 Coming Soon',
-                  ),
-                  Tab(text: "👀 Everyone's Watching"),
-                ],
-              ),
             ),
           ),
-          body: TabBarView(
-            children: [
-              _buildComingSoon(context),
-              _buildEveryonesWatching(),
-            ],
-          )),
+        ),
+        body: const TabBarView(
+          children: [
+            ComingSoonList(
+              key: Key('coming_soon'),
+            ),
+            EveryOnesWatchingList(
+              key: Key('everyone_is_watching'),
+            )
+          ],
+        ),
+      ),
     );
-  }
-
-  _buildComingSoon(BuildContext context) {
-    return ListView.builder(
-        itemBuilder: (BuildContext context, index) => const ComingSoonWidget(),
-        itemCount: 10);
-  }
-
-  _buildEveryonesWatching() {
-    return ListView.builder(
-        itemCount: 10,
-        itemBuilder: (BuildContext context, index) =>
-            const EveryonesWatchingWidget());
   }
 }

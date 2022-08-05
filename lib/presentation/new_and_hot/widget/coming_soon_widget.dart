@@ -1,12 +1,91 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:netflix/application/hot_and_new/hot_and_new_bloc.dart';
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/constants.dart';
+import 'package:netflix/core/strings.dart';
 import 'package:netflix/presentation/home/widget/custom_buttom_widget.dart';
 import 'package:netflix/presentation/widget/video_widget.dart';
 
+class ComingSoonList extends StatelessWidget {
+  const ComingSoonList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<HotAndNewBloc>(context).add(const LoadDataInComingSoon());
+    });
+    return RefreshIndicator(
+      onRefresh: () async {
+        BlocProvider.of<HotAndNewBloc>(context)
+            .add(const LoadDataInComingSoon());
+      },
+      color: kRedcolor,
+      child: BlocBuilder<HotAndNewBloc, HotAndNewState>(
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: kRedcolor,
+                strokeWidth: 2,
+              ),
+            );
+          } else if (state.isError) {
+            return const Center(
+              child: Text('Error occured'),
+            );
+          } else if (state.comingSoonList.isEmpty) {
+            return const Center(
+              child: Text('ComingSoon List is Empty'),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: state.comingSoonList.length,
+              itemBuilder: (BuildContext context, index) {
+                final movie = state.comingSoonList[index];
+                String month = '';
+                String date = '';
+                try {
+                  final _date = DateTime.tryParse(movie.releaseDate!);
+                  final formatedDate = DateFormat.MMMMd().format(_date!);
+                  month = formatedDate;
+                  date = movie.releaseDate!.split('-')[1];
+                } catch (_) {
+                  month = '';
+                  date = '';
+                }
+                return ComingSoonWidget(
+                    id: movie.id.toString(),
+                    month: month,
+                    date: date,
+                    backdropPath: '$imageAppendUrl${movie.backdropPath}',
+                    movieName: movie.title ?? 'No Title',
+                    description: movie.overview ?? 'No Description');
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
 class ComingSoonWidget extends StatelessWidget {
+  final String id;
+  final String month;
+  final String date;
+  final String backdropPath;
+  final String movieName;
+  final String description;
   const ComingSoonWidget({
     Key? key,
+    required this.id,
+    required this.month,
+    required this.date,
+    required this.backdropPath,
+    required this.movieName,
+    required this.description,
   }) : super(key: key);
 
   @override
@@ -20,17 +99,17 @@ class ComingSoonWidget extends StatelessWidget {
             width: 50,
             height: 415,
             child: Column(
-              children: const [
+              children: [
                 Text(
-                  'FEB',
-                  style: TextStyle(
+                  month.split(' ').first.substring(0, 3).toUpperCase(),
+                  style: const TextStyle(
                       fontSize: 16,
                       color: kGreycolor,
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  '11',
-                  style: TextStyle(
+                  date,
+                  style: const TextStyle(
                       fontSize: 30,
                       color: kWhitecolor,
                       fontWeight: FontWeight.bold,
@@ -41,31 +120,36 @@ class ComingSoonWidget extends StatelessWidget {
           ),
           SizedBox(
             width: size.width - 50,
-            height: 415,
+            height: 430,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const VideoWidget(
-                  image: kHotNewtempimage1,
+                VideoWidget(
+                  image: backdropPath,
                 ),
                 kHeight,
                 Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(
-                      'TALL GIRL 2',
-                      style:
-                          TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                  children: [
+                    Expanded(
+                      child: Text(
+                        movieName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    Spacer(),
-                    CustomButton(
+                    kWidth,
+                    const CustomButton(
                       icon: Icons.notifications_none,
                       title: 'Remind Me',
                       textcolor: kGreycolor,
                       fontsize: 10,
                     ),
                     kWidth,
-                    CustomButton(
+                    const CustomButton(
                       icon: Icons.info_outline,
                       title: 'Info',
                       textcolor: kGreycolor,
@@ -75,19 +159,21 @@ class ComingSoonWidget extends StatelessWidget {
                   ],
                 ),
                 kHeight,
-                const Text('Coming on Friday'),
+                Text('Coming on  $month'),
                 kHeight,
-                const Text(
-                  'TALL GIRL 2',
-                  style: TextStyle(
+                Text(
+                  movieName,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 kHeight,
-                const Text(
-                  'Landing the lead int school musical is a \ndream come true for jodi, until the pressure \nsends her confidenc- and her relationship - \ninto a tailspain',
-                  style: TextStyle(
+                Text(
+                  description,
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
                     color: kGreycolor,
                   ),
                 ),

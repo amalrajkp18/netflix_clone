@@ -35,7 +35,9 @@ class SearchResultWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MovieInfo(movieList: movie),
+                            builder: (context) => MovieInfo(
+                              movieList: movie,
+                            ),
                           ),
                         );
                       },

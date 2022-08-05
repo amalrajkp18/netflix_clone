@@ -53,23 +53,20 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoSearchTextField(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      backgroundColor: kGreycolor.withOpacity(.16),
-      suffixIcon: const Icon(
-        CupertinoIcons.xmark_circle_fill,
-        color: kGreycolor,
-      ),
-      prefixIcon: const Icon(
-        CupertinoIcons.search,
-        color: kGreycolor,
-      ),
-      style: const TextStyle(
-        color: kWhitecolor,
-      ),
-      onChanged: (query) {
-        if (query.isEmpty) {
-          return;
-        } else {
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        backgroundColor: kGreycolor.withOpacity(.16),
+        suffixIcon: const Icon(
+          CupertinoIcons.xmark_circle_fill,
+          color: kGreycolor,
+        ),
+        prefixIcon: const Icon(
+          CupertinoIcons.search,
+          color: kGreycolor,
+        ),
+        style: const TextStyle(
+          color: kWhitecolor,
+        ),
+        onChanged: (query) {
           _debouncer.run(
             () {
               BlocProvider.of<SearchBloc>(context).add(
@@ -77,8 +74,6 @@ class SearchBar extends StatelessWidget {
               );
             },
           );
-        }
-      },
-    );
+        });
   }
 }
