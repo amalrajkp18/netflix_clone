@@ -1,6 +1,6 @@
-# netflix
+# Netflix Clone
 
-A  Flutter project.
+A  Flutter project using TMDB API
 
 ## Getting Started
 
